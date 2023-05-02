@@ -1,5 +1,6 @@
 package com.jumpplus.tracker.runner;
 
+import com.jumpplus.tracker.controller.RunnerController;
 import com.jumpplus.tracker.dao.AlbumDaoSQL;
 import com.jumpplus.tracker.dao.ProgressDaoSQL;
 import com.jumpplus.tracker.dao.UserDaoSQL;
@@ -19,6 +20,8 @@ import java.util.Scanner;
 
 
 public class Runner {
+	
+    
     public static void main(String[] args) {
 
         Populator.reset();
@@ -27,31 +30,30 @@ public class Runner {
 
         UserDaoSQL userCaller = new UserDaoSQL();
         String welcome = "\nWelcome to our tracking app.\n";
-        String banner = """
 
-				▀█▀ █▀█ ▄▀█ █▀▀ █▄▀ █▀▀ █▀█
-	 	  █  █▀▄ █▀█ █▄▄ █ █ ██▄ █▀▄
-							""";
-        String loginMenu = "1 or l for (L)ogin\n2 or r for (R)egister\n0 or q for (Q)uit\ndont be a quitter";
+        // String loginMenu = "1 or l for (L)ogin\n2 or r for (R)egister\n0 or q for (Q)uit\ndont be a quitter";
 
         boolean isLogging = true;
 
-        System.out.println(welcome + banner);
-        System.out.println(loginMenu);
+        System.out.println(welcome);
+        //System.out.println(loginMenu);
+        RunnerController.menuDisplay();
 
         do {
 
 
             String ans = scan.nextLine().toUpperCase();
             if (ans.isEmpty()) {
-                System.out.println(welcome + banner);
-                System.out.println(loginMenu);
+                System.out.println(welcome);
+                // System.out.println(loginMenu);
+                RunnerController.menuDisplay();
                 continue;
             }
 
             switch (ans.charAt(0)) {
                 case 'L':
                 case '1':
+
                     System.out.println("What's your username?");
                     try {
                         String username = scan.nextLine();
@@ -82,6 +84,18 @@ public class Runner {
                     break;
                 case 'R':
                 case '2':
+                	
+                	System.out.println("Would you like to create an (a) Admin or (u) User?");
+                	
+                	String admin = scan.nextLine();
+                	String user = scan.nextLine();
+                	
+                	if(scan.nextLine() == admin ) {
+                		// set admin to true
+                	}else {
+                		// admin stays false
+                	}
+                	
                     System.out.println(
                             "\nPlease try to use a unique username and a difficult password.\nWe store your password "
                                     + "with MD5 message-digest algorithm, 128bit hash value.");
@@ -95,8 +109,9 @@ public class Runner {
                     } else {
                         System.out.println("\nError, try again with other username.");
                     }
-                    System.out.println(welcome + banner);
-                    System.out.println(loginMenu);
+                    System.out.println(welcome);
+                    // System.out.println(loginMenu);
+                    RunnerController.menuDisplay();
                     break;
 
                 case 'Q':
@@ -124,7 +139,7 @@ public class Runner {
         int ans;
         try {
             do {
-                menu(user);
+            	RunnerController.menu(user);
 
                 ans = scan.nextInt();
 
@@ -132,7 +147,7 @@ public class Runner {
 
                 switch (ans) {
                     case 1:
-                        addAlbum(scan, albumCaller);
+                        RunnerController.addAlbum(scan, albumCaller);
                         break;
 
                     case 2:
@@ -160,7 +175,7 @@ public class Runner {
 
 
 
-                        progressMenu();
+                        RunnerController.progressMenu();
 
                         choice = scan.nextInt();
 
@@ -225,7 +240,7 @@ public class Runner {
                         System.out.println("What's the album id to update?");
                         System.out.println("----------------------------------------------------------------------------");
 
-                        viewAlbums(progList);
+                        RunnerController.viewAlbums(progList);
 
                         System.out.println("\n");
 
@@ -234,7 +249,7 @@ public class Runner {
                         int choice2;
                         String progressChoice2;
                         String[] progressStatus2 = { "not completed", "in-progress", "completed", "" };
-                        progressUpdateMenu();
+                        RunnerController.progressUpdateMenu();
 
 
 
@@ -299,7 +314,7 @@ public class Runner {
                         System.out.println("Your progress trackers and albums");
                         System.out.println("----------------------------------------------------------------------------");
 
-                        viewAlbums(progList);
+                        RunnerController.viewAlbums(progList);
 
                         System.out.println("\n");
 
@@ -325,71 +340,79 @@ public class Runner {
 
     }
 
-    public static void menu(User user) {
-
-        System.out.println("\n==============================================");
-        System.out.println("  Hello, " + user.getUsername());
-        System.out.println("| Welcome to the Album Progress Tracker!     |");
-        System.out.println("|                                            |");
-        System.out.println("| Please choose from the following options:  |");
-        System.out.println("|                                            |");
-        System.out.println("| 1: Add Album                               |");
-        System.out.println("| 2: Add Progress                            |");
-        System.out.println("| 3: Update Progress                         |");
-        System.out.println("| 4: List Albums                             |");
-        System.out.println("| 5: LOGOUT                                  |");
-        System.out.println("|                                            |");
-        System.out.println("==============================================");
-    }
-    public static void progressMenu() {
-
-        System.out.println("Please choose your progress:			  ");
-        System.out.println("                                          ");
-        System.out.println("6 - Not Started                           ");
-        System.out.println("7 - In Progress                           ");
-        System.out.println("8 - Completed                            \n");
-    }
-    public static void progressUpdateMenu() {
-
-        System.out.println("Please choose your updated progress:      ");
-        System.out.println("                                          ");
-        System.out.println("6 - Not Started                           ");
-        System.out.println("7 - In Progress                           ");
-        System.out.println("8 - Completed                            \n");
-    }
-
-    public static void addAlbum(Scanner scan, AlbumDaoSQL albumCaller) {
-        System.out.println("What's the name of the new album?");
-        String testVar = scan.next();
-        String albumName = testVar + scan.nextLine();
-
-        Album albumAdded = new Album(albumName);
-        boolean addResult = albumCaller.addAlbum(albumAdded);
-        if (addResult) {
-            System.out.println(albumAdded);
-            System.out.println("Album successfully added");
-        } else {
-            System.out.println("Could not add album");
-        }
-    }
-
-    public static void viewAlbums(List<Progress> progList) {
-
-        AlbumDaoSQL albumCaller = new AlbumDaoSQL();
-        if (progList.isEmpty()) {
-            System.out.println("\nYou aren't tracking any albums.\n");
-        }
-        List<Album> albums = albumCaller.getAllAlbums();
-        progList.forEach(progress -> {
-
-            Album progressAlbum =
-                    albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
-                            .findFirst().get();
-            if (progressAlbum.getAlbum_id() < 10)	System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
-                    progressAlbum.getAlbum(), progress.getProgress());
-            else System.out.printf("\n%s - %s -> %s", progressAlbum.getAlbum_id(),
-                    progressAlbum.getAlbum(), progress.getProgress());
-        });
-    }
+//    public static void menuDisplay() {
+//        System.out.println("+====================================+");
+//        System.out.println("              TRACKING APP");
+//        System.out.println("+====================================+");
+//        System.out.println("\n1. Login\n2. Register\n0. Quit\n");
+//    }
+//    
+//    
+//    public static void menu(User user) {
+//
+//        System.out.println("\n+============================================+");
+//        System.out.println("  Hello, " + user.getUsername());
+//        System.out.println("| Welcome to the Album Progress Tracker!     |");
+//        System.out.println("|                                            |");
+//        System.out.println("| Please choose from the following options:  |");
+//        System.out.println("|                                            |");
+//        System.out.println("| 1: Add Album                               |");
+//        System.out.println("| 2: Add Progress                            |");
+//        System.out.println("| 3: Update Progress                         |");
+//        System.out.println("| 4: List Albums                             |");
+//        System.out.println("| 5: LOGOUT                                  |");
+//        System.out.println("|                                            |");
+//        System.out.println("+============================================+");
+//    }
+//    public static void progressMenu() {
+//
+//        System.out.println("Please choose your progress:			  ");
+//        System.out.println("                                          ");
+//        System.out.println("6 - Not Started                           ");
+//        System.out.println("7 - In Progress                           ");
+//        System.out.println("8 - Completed                            \n");
+//    }
+//    public static void progressUpdateMenu() {
+//
+//        System.out.println("Please choose your updated progress:      ");
+//        System.out.println("                                          ");
+//        System.out.println("6 - Not Started                           ");
+//        System.out.println("7 - In Progress                           ");
+//        System.out.println("8 - Completed                            \n");
+//    }
+//
+//    public static void addAlbum(Scanner scan, AlbumDaoSQL albumCaller) {
+//        System.out.println("What's the name of the new album?");
+//        String testVar = scan.next();
+//        String albumName = testVar + scan.nextLine();
+//
+//        Album albumAdded = new Album(albumName);
+//        boolean addResult = albumCaller.addAlbum(albumAdded);
+//        if (addResult) {
+//            System.out.println(albumAdded);
+//            System.out.println("Album successfully added");
+//        } else {
+//            System.out.println("Could not add album");
+//        }
+//    }
+//
+//    public static void viewAlbums(List<Progress> progList) {
+//
+//        AlbumDaoSQL albumCaller = new AlbumDaoSQL();
+//        if (progList.isEmpty()) {
+//            System.out.println("\nYou aren't tracking any albums.\n");
+//        }
+//        List<Album> albums = albumCaller.getAllAlbums();
+//        progList.forEach(progress -> {
+//
+//            Album progressAlbum =
+//                    albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
+//                            .findFirst().get();
+//            if (progressAlbum.getAlbum_id() < 10)	System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
+//                    progressAlbum.getAlbum(), progress.getProgress());
+//            else System.out.printf("\n%s - %s -> %s", progressAlbum.getAlbum_id(),
+//                    progressAlbum.getAlbum(), progress.getProgress());
+//        });
+//    }
 
 }
