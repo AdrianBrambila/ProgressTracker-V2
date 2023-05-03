@@ -105,5 +105,24 @@ public class RunnerController {
         });
     }
 	
+	private static String displayProgressBar(int progress, int total) {
+		double percent = (double)progress / (double)total;
+		double outOfTwenty = percent * 20;
+		int progressToPrint = (int)outOfTwenty;
+
+		String bar = "|";
+		for (int i = 1; i <= 20; i++) {
+			if (i <= progressToPrint) {
+				bar = bar + "*";
+			}
+			else {
+				bar = bar + "-";
+			}
+		}
+		bar = bar + "|";
+		
+		return bar;
+	}
+
 
 }
