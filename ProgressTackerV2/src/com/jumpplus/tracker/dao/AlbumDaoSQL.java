@@ -16,19 +16,27 @@ public class AlbumDaoSQL implements AlbumDao{
     @Override
     public Album getAlbumId(int a_id) {
 
-        try( PreparedStatement pstmt = conn.prepareStatement("select * from albums where album_id = ?")){
+        try( PreparedStatement pstmt = conn.prepareStatement("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id where album_id = ?")){
 
             pstmt.setInt(1, a_id);
 
             ResultSet rs = pstmt.executeQuery();
-            Album album = null;
+            Album album = new Album();
 
             if(rs.next()) {
                 int album_id = rs.getInt("album_id");
                 String album_name = rs.getString("album");
+                String artist = rs.getString("artist_name");
+                String genre = rs.getString("genre_name");
+                int release = rs.getInt("release_year");
 
 
-                album = new Album(album_id, album_name);
+
+                album.setAlbum_id(album_id);
+                album.setAlbumName(album_name);
+                album.setArtist(artist);
+                album.setGenre(genre);
+                album.setReleaseYear(release);
 
             }
 
@@ -49,13 +57,23 @@ public class AlbumDaoSQL implements AlbumDao{
         List<Album> albList = new ArrayList<Album>();
 
         try( Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM albums");){
+             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id");){
 
             while(rs.next()) {
-                int id = rs.getInt("album_id");
-                String albumN = rs.getString("album");
+                int album_id = rs.getInt("album_id");
+                String album_name = rs.getString("album");
+                String artist = rs.getString("artist_name");
+                String genre = rs.getString("genre_name");
+                int release = rs.getInt("release_year");
 
-                Album album = new Album(id, albumN);
+
+                Album album = new Album();
+                album.setAlbum_id(album_id);
+                album.setAlbumName(album_name);
+                album.setArtist(artist);
+                album.setGenre(genre);
+                album.setReleaseYear(release);
+
                 albList.add(album);
 
             }
@@ -69,9 +87,13 @@ public class AlbumDaoSQL implements AlbumDao{
     @Override
     public boolean addAlbum(Album album) {
 
-        try( PreparedStatement pstmt = conn.prepareStatement("INSERT into albums(album)values(?)")){
+        try( PreparedStatement pstmt = conn.prepareStatement("INSERT into albums(?, ?, ?, ?, ?)values(?, ?, ?,?,?)")){
 
-            pstmt.setString(1, album.getAlbum());
+            pstmt.setInt(1, album.getAlbum_id());
+            pstmt.setInt(2, 1);  //need to find a way to get album id from album name
+            pstmt.setInt(3, 1);
+            pstmt.setString(4, album.getAlbumName());
+            pstmt.setInt(4, album.getReleaseYear());
 
             int count = pstmt.executeUpdate();
 
