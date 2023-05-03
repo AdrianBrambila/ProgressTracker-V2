@@ -3,4 +3,6 @@
 Authors:
 
 - Adrian Bramila
+- Kaleb McDonnell
+- John Larson
 - Matteo Antunez
