@@ -34,6 +34,23 @@ public class RunnerController {
         System.out.println("|                                            |");
         System.out.println("+============================================+");
     }
+    public static void adminMenu(User user) {
+
+        System.out.println("\n+============================================+");
+        System.out.println("  Hello, " + user.getUsername());
+        System.out.println("| Welcome to the Album Progress Tracker!     |");
+        System.out.println("|                                            |");
+        System.out.println("| Please choose from the following options:  |");
+        System.out.println("|                                            |");
+        System.out.println("| 1: Add Album                               |");
+        System.out.println("| 2: Add Progress                            |");
+        System.out.println("| 3: Update Progress                         |");
+        System.out.println("| 4: List Albums                             |");
+        System.out.println("| 5: EDIT ALBUMS                             |");
+        System.out.println("| 6: LOGOUT                                  |");
+        System.out.println("|                                            |");
+        System.out.println("+============================================+");
+    }
     public static void progressMenu() {
 
         System.out.println("Please choose your progress:			  ");
@@ -66,6 +83,8 @@ public class RunnerController {
             System.out.println("Could not add album");
         }
     }
+
+
 
     public static void viewAlbums(List<Progress> progList) {
 

@@ -28,6 +28,7 @@ public class ProgressDaoSQL implements ProgressDao {
                 int uid = rs.getInt("user_id");
                 int aid = rs.getInt("album_id");
                 String prog = rs.getString("progress");
+                int songs = rs.getInt("song_count");
 
 
                 Progress nProg = new Progress(uid, aid, prog);

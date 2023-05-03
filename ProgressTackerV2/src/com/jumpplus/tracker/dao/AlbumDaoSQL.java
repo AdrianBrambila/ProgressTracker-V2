@@ -57,7 +57,7 @@ public class AlbumDaoSQL implements AlbumDao{
         List<Album> albList = new ArrayList<Album>();
 
         try( Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id");){
+             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id order by al.album_id");){
 
             while(rs.next()) {
                 int album_id = rs.getInt("album_id");
