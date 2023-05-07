@@ -6,6 +6,8 @@ public class Album {
 
     private String artist;
     private String genre;
+    private int songCount;
+
     private int releaseYear;
 
 
@@ -13,7 +15,7 @@ public class Album {
     public Album(){
 
     };
-    public Album(int album_id, String albumName, String artist, String genre, int releaseYear) {
+    public Album(int album_id, String albumName, String artist, String genre,int songCount, int releaseYear) {
         this.album_id = album_id;
         this.albumName = albumName;
         this.artist = artist;
@@ -48,6 +50,13 @@ public class Album {
 
     public void setArtist(String artist) {
         this.artist = artist;
+    }
+    public int getSongCount() {
+        return songCount;
+    }
+
+    public void setSongCount(int songCount) {
+        this.songCount = songCount;
     }
 
     public String getGenre() {

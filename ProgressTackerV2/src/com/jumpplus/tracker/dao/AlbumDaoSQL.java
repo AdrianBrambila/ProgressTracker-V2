@@ -16,7 +16,7 @@ public class AlbumDaoSQL implements AlbumDao{
     @Override
     public Album getAlbumId(int a_id) {
 
-        try( PreparedStatement pstmt = conn.prepareStatement("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id where album_id = ?")){
+        try( PreparedStatement pstmt = conn.prepareStatement("select al.album_id, al.album, ar.artist_name, g.genre_name, al.songs, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id where album_id = ?")){
 
             pstmt.setInt(1, a_id);
 
@@ -29,6 +29,7 @@ public class AlbumDaoSQL implements AlbumDao{
                 String artist = rs.getString("artist_name");
                 String genre = rs.getString("genre_name");
                 int release = rs.getInt("release_year");
+                int songCount = rs.getInt("songs");
 
 
 
@@ -37,6 +38,7 @@ public class AlbumDaoSQL implements AlbumDao{
                 album.setArtist(artist);
                 album.setGenre(genre);
                 album.setReleaseYear(release);
+                album.setSongCount(songCount);
 
             }
 

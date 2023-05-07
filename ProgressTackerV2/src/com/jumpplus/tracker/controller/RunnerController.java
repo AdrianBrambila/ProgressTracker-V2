@@ -16,8 +16,8 @@ public class RunnerController {
         System.out.println("+====================================+");
         System.out.println("\n1. Login\n2. Register\n0. Quit\n");
     }
-    
-    
+
+
     public static void menu(User user) {
 
         System.out.println("\n+============================================+");
@@ -34,6 +34,7 @@ public class RunnerController {
         System.out.println("|                                            |");
         System.out.println("+============================================+");
     }
+
     public static void adminMenu(User user) {
 
         System.out.println("\n+============================================+");
@@ -51,6 +52,7 @@ public class RunnerController {
         System.out.println("|                                            |");
         System.out.println("+============================================+");
     }
+
     public static void progressMenu() {
 
         System.out.println("Please choose your progress:			  ");
@@ -59,6 +61,7 @@ public class RunnerController {
         System.out.println("7 - In Progress                           ");
         System.out.println("8 - Completed                            \n");
     }
+
     public static void progressUpdateMenu() {
 
         System.out.println("Please choose your updated progress:      ");
@@ -83,8 +86,12 @@ public class RunnerController {
         int releseYear = scan.nextInt();
         scan.nextLine();
 
+        System.out.println("How many songs are in the Album?");
+        int songCount = scan.nextInt();
+        scan.nextLine();
 
-        Album albumAdded = new Album(1, albumName, artist, genre, releseYear);
+
+        Album albumAdded = new Album(1, albumName, artist, genre, songCount, releseYear);
         boolean addResult = albumCaller.addAlbum(albumAdded);
         if (addResult) {
             System.out.println(albumAdded);
@@ -93,7 +100,6 @@ public class RunnerController {
             System.out.println("Could not add album");
         }
     }
-
 
 
     public static void viewAlbums(List<Progress> progList) {
@@ -106,7 +112,6 @@ public class RunnerController {
         progList.forEach(progress -> {
 
 
-
             Album progressAlbum =
                     albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
                             .findFirst().get();
@@ -117,22 +122,22 @@ public class RunnerController {
         });
     }
 
-	
-	private static String displayProgressBar(int progress, int total) {
-		double percent = (double)progress / (double)total;
-		double outOfTwenty = percent * 20;
-		int progressToPrint = (int)outOfTwenty;
 
-		String bar = "|";
-		for (int i = 1; i <= 20; i++) {
-			if (i <= progressToPrint) {
-				bar = bar + "*";
-			}
-			else {
-				bar = bar + "-";
-			}
-		}
-		bar = bar + "|";
-		
-		return bar;
-	}
+    private static String displayProgressBar(int progress, int total) {
+        double percent = (double) progress / (double) total;
+        double outOfTwenty = percent * 20;
+        int progressToPrint = (int) outOfTwenty;
+
+        String bar = "|";
+        for (int i = 1; i <= 20; i++) {
+            if (i <= progressToPrint) {
+                bar = bar + "*";
+            } else {
+                bar = bar + "-";
+            }
+        }
+        bar = bar + "|";
+
+        return bar;
+    }
+}

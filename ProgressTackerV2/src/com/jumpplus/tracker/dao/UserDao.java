@@ -10,7 +10,7 @@ public interface UserDao {
 
     public User getUserId(int u_id);
 
-    boolean createUser(String username, String password);
+    boolean createUser(String username, String password, boolean admin);
 
     boolean deleteUser(int u_id);
 }
