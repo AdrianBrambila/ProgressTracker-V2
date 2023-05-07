@@ -248,7 +248,7 @@ public class RunnerController {
 
                         int choice2;
                         String progressChoice2;
-                        String[] progressStatus2 = { "not completed", "in-progress", "completed", "" };
+                        String[] progressStatus2 = { "Not started", "In-progress", "Completed", "" };
                         RunnerController.progressUpdateMenu();
 
 
@@ -400,7 +400,7 @@ public class RunnerController {
         }
         List<Album> albums = albumCaller.getAllAlbums();
         progList.forEach(progress -> {
-
+        	// TODO use progress bar
             Album progressAlbum =
                     albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
                             .findFirst().get();
