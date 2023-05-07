@@ -72,12 +72,11 @@ public class UserDaoSQL implements UserDao{
     }
 
     @Override
-    public boolean createUser(String username, String password) {
+    public boolean createUser(String username, String password, boolean admin) {
 
         try {
 
-            conn.createStatement().execute("INSERT into users(username, password) values ('" + username + "', md5('" + password +
-                    "'))");
+            conn.createStatement().execute("INSERT into users(username, password, admin) values ('" + username + "', md5('" + password +  "') + admin)");
         } catch (SQLException e) {
             return false;
         }

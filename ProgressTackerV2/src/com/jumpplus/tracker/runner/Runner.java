@@ -20,8 +20,8 @@ import java.util.Scanner;
 
 
 public class Runner {
-	
-    
+
+
     public static void main(String[] args) {
 
         Populator.reset();
@@ -51,7 +51,7 @@ public class Runner {
             }
 
             switch (ans.charAt(0)) {
-                case 'L':
+              //  case 'L':
                 case '1':
 
                     System.out.println("What's your username?");
@@ -82,20 +82,25 @@ public class Runner {
                         System.out.println("login failed");
                     }
                     break;
-                case 'R':
+               // case 'R':
                 case '2':
-                	
-                	System.out.println("Would you like to create an (a) Admin or (u) User?");
-                	
-                	String admin = scan.nextLine();
-                	String user = scan.nextLine();
-                	
-                	if(scan.nextLine() == admin ) {
-                		// set admin to true
-                	}else {
-                		// admin stays false
-                	}
-                	
+
+                    System.out.println("Enter (1) if you would like to create a User account or (2) for an Admin account");
+
+                    //String admin = scan.nextLine();
+                    //String user = scan.nextLine();
+                    int choice = scan.nextInt();
+                    scan.nextLine();
+                    boolean admin = false;
+                    if(choice == 1 ) {
+                        admin = false;
+                    }
+                    else if (choice == 2){
+                        admin= true;
+                    }else {
+                        System.out.println("Invalid choice!");
+                    }
+
                     System.out.println(
                             "\nPlease try to use a unique username and a difficult password.\nWe store your password "
                                     + "with MD5 message-digest algorithm, 128bit hash value.");
@@ -103,7 +108,7 @@ public class Runner {
                     String newUsername = scan.nextLine();
                     System.out.println("\npassword:");
                     String password = scan.nextLine();
-                    boolean result = userCaller.createUser(newUsername, password);
+                    boolean result = userCaller.createUser(newUsername, password, admin);
                     if (result) {
                         System.out.println("\nUser " + newUsername + " created successfully.");
                     } else {
@@ -114,7 +119,7 @@ public class Runner {
                     RunnerController.menuDisplay();
                     break;
 
-                case 'Q':
+              //  case 'Q':
                 case '0':
                     isLogging = false;
                     System.out.println("Thanks for using our progress tracking app. Have a great day!");
@@ -133,21 +138,21 @@ public class Runner {
 
     public static void loggedMenu(User user, Scanner scan) {
 
-        AlbumDaoSQL albumCaller = new AlbumDaoSQL();
-        ProgressDaoSQL progressCaller = new ProgressDaoSQL();
+        AlbumDaoSQL adao = new AlbumDaoSQL();
+        ProgressDaoSQL pdao = new ProgressDaoSQL();
 
         int ans;
         try {
             do {
-            	RunnerController.menu(user);
+                RunnerController.menu(user);
 
                 ans = scan.nextInt();
 
-                List<Progress> progList = progressCaller.getAllUserTrackers(user.getUser_id());
+                List<Progress> progList = pdao.getAllUserTrackers(user.getUser_id());
 
                 switch (ans) {
                     case 1:
-                        RunnerController.addAlbum(scan, albumCaller);
+                        RunnerController.addAlbum(scan, adao);
                         break;
 
                     case 2:
@@ -157,15 +162,24 @@ public class Runner {
                         System.out.println("What's the album id?");
                         System.out.println("----------------------------------------------------------------------------");
 
-                        List<Album> albList = albumCaller.getAllAlbums();
+                        List<Album> albList = adao.getAllAlbums();
 
                         System.out.println("\nID  -  Artist, 'Album'");
-                        albList.forEach(album -> {
-                            if (album.getAlbum_id() < 10)
-                                System.out.printf(" %s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
-                            else
-                                System.out.printf("%s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
-                        });
+//                        albList.forEach(album -> {
+//                            if (album.getAlbum_id() < 10)
+//                                System.out.printf(" %s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
+//                            else
+//                                System.out.printf("%s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
+//                        });
+
+                        for (Album a : albList){
+                            System.out.println(a.getAlbum_id() + " | " + a.getAlbumName() + " | " + a.getArtist() + " | " + a.getGenre());
+
+
+                        }
+
+                        int songCount = 0;
+                        int rating = 0;
 
                         int albumId = scan.nextInt();
 
@@ -173,11 +187,25 @@ public class Runner {
                         String progressChoice;
                         String[] progressStatus = { "not completed", "in-progress", "completed", "" };
 
-
-
                         RunnerController.progressMenu();
 
                         choice = scan.nextInt();
+                        scan.nextLine();
+
+                        if(choice == 8){
+                            System.out.println("What would you rate the album out of 5?");
+                            rating = scan.nextInt();
+                            scan.nextLine();
+
+                            System.out.println("How many songs have you listened to?");
+                            songCount = scan.nextInt();
+                            scan.nextLine();
+
+                        }
+
+
+
+
 
                         String message = "Invalid progress entered";
                         boolean stillChoosing = true;
@@ -185,8 +213,8 @@ public class Runner {
                             switch (choice) {
                                 case 6:
                                     progressChoice = progressStatus[0];
-                                    Progress progressAdded = new Progress(userId, albumId, progressChoice);
-                                    boolean progressAddResult = progressCaller.addProgress(progressAdded);
+                                    Progress progressAdded = new Progress(userId, albumId, progressChoice, songCount, rating);
+                                    boolean progressAddResult = pdao.addProgress(progressAdded);
                                     if (progressAddResult) {
                                         System.out.println(progressAdded);
                                         System.out.println("Progress tracker successfully added");
@@ -198,8 +226,8 @@ public class Runner {
                                     break;
                                 case 7:
                                     progressChoice = progressStatus[1];
-                                    Progress progressAdded2 = new Progress(userId, albumId, progressChoice);
-                                    boolean progressAddResult2 = progressCaller.addProgress(progressAdded2);
+                                    Progress progressAdded2 = new Progress(userId, albumId, progressChoice, songCount, rating);;
+                                    boolean progressAddResult2 = pdao.addProgress(progressAdded2);
                                     if (progressAddResult2) {
                                         System.out.println(progressAdded2);
                                         System.out.println("Progress tracker successfully added");
@@ -211,8 +239,8 @@ public class Runner {
                                     break;
                                 case 8:
                                     progressChoice = progressStatus[2];
-                                    Progress progressAdded3 = new Progress(userId, albumId, progressChoice);
-                                    boolean progressAddResult3 = progressCaller.addProgress(progressAdded3);
+                                    Progress progressAdded3 = new Progress(userId, albumId, progressChoice, songCount, rating);
+                                    boolean progressAddResult3 = pdao.addProgress(progressAdded3);
                                     if (progressAddResult3) {
                                         System.out.println(progressAdded3);
                                         System.out.println("Progress tracker successfully added");
@@ -246,23 +274,42 @@ public class Runner {
 
                         int albumId2 = scan.nextInt();
 
+                        songCount = 0;
+                        rating = 0;
+
                         int choice2;
                         String progressChoice2;
                         String[] progressStatus2 = { "not completed", "in-progress", "completed", "" };
                         RunnerController.progressUpdateMenu();
 
-
-
                         choice2 = scan.nextInt();
+
+                        if(choice2 == 7){
+
+                            System.out.println("How many songs have you listened to?");
+                            songCount = scan.nextInt();
+                            scan.nextLine();
+
+                        }
+                        if(choice2 == 8){
+                            System.out.println("What would you rate the album out of 5?");
+                            rating = scan.nextInt();
+                            scan.nextLine();
+
+                            Album a = adao.getAlbumId(albumId2);
+                            songCount = a.getSongCount();
+
+
+                        }
 
                         boolean stillChoosing2 = true;
                         while (stillChoosing2) {
                             switch (choice2) {
                                 case 6:
                                     progressChoice2 = progressStatus2[0];
-                                    progressCaller.get
-                                    Progress progressAdded = new Progress(userId2, albumId2, progressChoice2);
-                                    boolean progressAddResult = progressCaller.updateProgress(progressAdded);
+                                    //pdao.get
+                                    Progress progressAdded = new Progress(userId2, albumId2, progressChoice2, songCount, rating);
+                                    boolean progressAddResult = pdao.updateProgress(progressAdded);
                                     if (progressAddResult) {
                                         System.out.println(progressAdded);
                                         System.out.println("Progress tracker successfully updated");
@@ -274,8 +321,8 @@ public class Runner {
                                     break;
                                 case 7:
                                     progressChoice2 = progressStatus2[1];
-                                    Progress progressAdded2 = new Progress(userId2, albumId2, progressChoice2);
-                                    boolean progressAddResult2 = progressCaller.updateProgress(progressAdded2);
+                                    Progress progressAdded2 = new Progress(userId2, albumId2, progressChoice2, songCount, rating);
+                                    boolean progressAddResult2 = pdao.updateProgress(progressAdded2);
                                     if (progressAddResult2) {
                                         System.out.println(progressAdded2);
                                         System.out.println("Progress tracker successfully updated");
@@ -287,9 +334,9 @@ public class Runner {
                                     break;
                                 case 8:
                                     progressChoice2 = progressStatus2[2];
-                                    Progress progressAdded3 = new Progress(userId2, albumId2, progressChoice2);
+                                    Progress progressAdded3 = new Progress(userId2, albumId2, progressChoice2, songCount, rating);
 
-                                    boolean progressAddResult3 = progressCaller.updateProgress(progressAdded3);
+                                    boolean progressAddResult3 = pdao.updateProgress(progressAdded3);
                                     if (progressAddResult3) {
                                         System.out.println(progressAdded3);
                                         System.out.println("Progress tracker successfully updated");
