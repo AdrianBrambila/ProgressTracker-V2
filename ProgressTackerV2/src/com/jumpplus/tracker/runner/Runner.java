@@ -162,9 +162,9 @@ public class Runner {
                         System.out.println("\nID  -  Artist, 'Album'");
                         albList.forEach(album -> {
                             if (album.getAlbum_id() < 10)
-                                System.out.printf(" %s  -  %s\n", album.getAlbum_id(), album.getAlbum());
+                                System.out.printf(" %s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
                             else
-                                System.out.printf("%s  -  %s\n", album.getAlbum_id(), album.getAlbum());
+                                System.out.printf("%s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
                         });
 
                         int albumId = scan.nextInt();
@@ -260,6 +260,7 @@ public class Runner {
                             switch (choice2) {
                                 case 6:
                                     progressChoice2 = progressStatus2[0];
+                                    progressCaller.get
                                     Progress progressAdded = new Progress(userId2, albumId2, progressChoice2);
                                     boolean progressAddResult = progressCaller.updateProgress(progressAdded);
                                     if (progressAddResult) {
@@ -287,6 +288,7 @@ public class Runner {
                                 case 8:
                                     progressChoice2 = progressStatus2[2];
                                     Progress progressAdded3 = new Progress(userId2, albumId2, progressChoice2);
+
                                     boolean progressAddResult3 = progressCaller.updateProgress(progressAdded3);
                                     if (progressAddResult3) {
                                         System.out.println(progressAdded3);

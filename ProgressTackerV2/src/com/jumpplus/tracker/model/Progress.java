@@ -6,10 +6,38 @@ public class Progress {
     private int album_id;
     private String progress;
 
-    public Progress(int user_id, int album_id, String progress) {
+    private int song_count;
+    private int rating;
+
+//    public Progress(int user_id, int album_id, String progress) {
+//        this.user_id = user_id;
+//        this.album_id = album_id;
+//        this.progress = progress;
+//    }
+
+
+    public Progress(int user_id, int album_id, String progress, int song_count, int rating) {
         this.user_id = user_id;
         this.album_id = album_id;
         this.progress = progress;
+        this.song_count = song_count;
+        this.rating = rating;
+    }
+
+    public int getSong_count() {
+        return song_count;
+    }
+
+    public void setSong_count(int song_count) {
+        this.song_count = song_count;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public Progress() {

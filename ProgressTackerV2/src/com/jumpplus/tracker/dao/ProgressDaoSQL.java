@@ -25,15 +25,29 @@ public class ProgressDaoSQL implements ProgressDao {
 
 
             while(rs.next()) {
+//                int uid = rs.getInt("user_id");
+//                int aid = rs.getInt("album_id");
+//                String prog = rs.getString("progress");
+//                int songs = rs.getInt("song_count");
+//
+//
+//                Progress nProg = new Progress(uid, aid, prog);
+//                progList.add(nProg);
                 int uid = rs.getInt("user_id");
                 int aid = rs.getInt("album_id");
                 String prog = rs.getString("progress");
                 int songs = rs.getInt("song_count");
+                int rating = rs.getInt("rating");
 
 
-                Progress nProg = new Progress(uid, aid, prog);
+                Progress nProg = new Progress();
+                nProg.setUser_id(uid);
+                nProg.setAlbum_id(aid);
+                nProg.setSong_count(songs);
+                nProg.setProgress(prog);
+                nProg.setRating(rating);
+
                 progList.add(nProg);
-
             }
 
             return progList;
@@ -88,6 +102,43 @@ public class ProgressDaoSQL implements ProgressDao {
             System.out.println("add progress failed");
         }
         return false;
+    }
+
+    @Override
+    public List<Progress> getAllProgress() {
+
+
+        List<Progress> progList = new ArrayList<Progress>();
+
+        try( Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM progress ");){
+
+
+            while(rs.next()) {
+                int uid = rs.getInt("user_id");
+                int aid = rs.getInt("album_id");
+                String prog = rs.getString("progress");
+                int songs = rs.getInt("song_count");
+                int rating = rs.getInt("rating");
+
+
+                Progress nProg = new Progress();
+                nProg.setUser_id(uid);
+                nProg.setAlbum_id(aid);
+                nProg.setSong_count(songs);
+                nProg.setProgress(prog);
+                nProg.setRating(rating);
+
+                progList.add(nProg);
+
+            }
+
+            return progList;
+
+        } catch (SQLException e) {
+            System.out.println("Could not retrieve list of trackers for user");
+        }
+        return null;
     }
 
 }

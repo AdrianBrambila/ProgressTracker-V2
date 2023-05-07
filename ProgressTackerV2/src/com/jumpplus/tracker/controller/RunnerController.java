@@ -9,8 +9,8 @@ import com.jumpplus.tracker.model.Progress;
 import com.jumpplus.tracker.model.User;
 
 public class RunnerController {
-	
-	public static void menuDisplay() {
+
+    public static void menuDisplay() {
         System.out.println("+====================================+");
         System.out.println("              TRACKING APP");
         System.out.println("+====================================+");
@@ -67,14 +67,24 @@ public class RunnerController {
         System.out.println("7 - In Progress                           ");
         System.out.println("8 - Completed                            \n");
     }
-	
-	
-	public static void addAlbum(Scanner scan, AlbumDaoSQL albumCaller) {
-        System.out.println("What's the name of the new album?");
-        String testVar = scan.next();
-        String albumName = testVar + scan.nextLine();
 
-        Album albumAdded = new Album(albumName);
+    // public Album(int album_id, String albumName, String artist, String genre, int releaseYear)
+    public static void addAlbum(Scanner scan, AlbumDaoSQL albumCaller) {
+        System.out.println("What's the name of the new album?");
+        String albumName = scan.nextLine();
+        //String albumName = testVar + scan.nextLine();
+        System.out.println("Who is the Artist? ");
+        String artist = scan.nextLine();
+
+        System.out.println("What is the Genre? ");
+        String genre = scan.nextLine();
+
+        System.out.println("When was the album released? ");
+        int releseYear = scan.nextInt();
+        scan.nextLine();
+
+
+        Album albumAdded = new Album(1, albumName, artist, genre, releseYear);
         boolean addResult = albumCaller.addAlbum(albumAdded);
         if (addResult) {
             System.out.println(albumAdded);
@@ -95,15 +105,18 @@ public class RunnerController {
         List<Album> albums = albumCaller.getAllAlbums();
         progList.forEach(progress -> {
 
+
+
             Album progressAlbum =
                     albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
                             .findFirst().get();
-            if (progressAlbum.getAlbum_id() < 10)	System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
-                    progressAlbum.getAlbum(), progress.getProgress());
+            if (progressAlbum.getAlbum_id() < 10) System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
+                    progressAlbum.getAlbumName(), progress.getProgress());
             else System.out.printf("\n%s - %s -> %s", progressAlbum.getAlbum_id(),
-                    progressAlbum.getAlbum(), progress.getProgress());
+                    progressAlbum.getAlbumName(), progress.getProgress());
         });
     }
+
 	
 	private static String displayProgressBar(int progress, int total) {
 		double percent = (double)progress / (double)total;
@@ -123,6 +136,3 @@ public class RunnerController {
 		
 		return bar;
 	}
-
-
-}
