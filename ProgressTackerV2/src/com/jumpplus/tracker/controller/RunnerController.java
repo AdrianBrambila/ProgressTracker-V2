@@ -149,7 +149,7 @@ public class RunnerController {
     }
 
 
-    private static String displayProgressBar(int progress, int total) {
+    public static String displayProgressBar(int progress, int total) {
         double percent = (double) progress / (double) total;
         double outOfTwenty = percent * 20;
         int progressToPrint = (int) outOfTwenty;

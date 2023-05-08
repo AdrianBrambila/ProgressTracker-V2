@@ -63,7 +63,7 @@ public class AlbumDaoSQL implements AlbumDao{
             ResultSet rs = pstmt.executeQuery();
             String album_name = "";
             if(rs.next()) {
-                album_name = rs.getString("album_name");
+                album_name = rs.getString("album");
 
 
             }
