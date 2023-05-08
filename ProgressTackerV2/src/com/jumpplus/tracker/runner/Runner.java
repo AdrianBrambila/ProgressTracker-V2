@@ -166,15 +166,17 @@ public class Runner {
                         // Assumed that user already has an id
                         int userId = user.getUser_id();
                         System.out.println("What's the album id?");
-                        System.out.println("----------------------------------------------------------------------------");
+                        System.out.println("---------------------------------------------------------------------------------");
 
                         List<Album> albList = adao.getAllAlbums();
 
-                        System.out.println("\nID  -  Artist, 'Album'");
+                        System.out.println("\n" + String.format("%-2s - %-38s   %-25s   Genre", "ID", "Album", "Artist"));
 
 
                         for (Album a : albList){
-                            System.out.println(a.getAlbum_id() + " | " + a.getAlbumName() + " | " + a.getArtist() + " | " + a.getGenre());
+                            System.out.println(String.format("%-2s", a.getAlbum_id())
+                            		+ " | " + String.format("%-38s", a.getAlbumName())
+                            		+ " | " + String.format("%-25s", a.getArtist()) + " | " + a.getGenre());
 
                         }
 
@@ -185,7 +187,7 @@ public class Runner {
 
                         int choice;
                         String progressChoice;
-                        String[] progressStatus = { "not completed", "in-progress", "completed", "" };
+                        String[] progressStatus = { "Not started", "In-progress", "Completed", "" };
 
                         RunnerController.progressMenu();
 
@@ -295,7 +297,7 @@ public class Runner {
 
                         int choice2;
                         String progressChoice2;
-                        String[] progressStatus2 = { "not completed", "in-progress", "completed", "" };
+                        String[] progressStatus2 = { "Not started", "In-progress", "Completed", "" };
                         RunnerController.progressUpdateMenu();
 
                         choice2 = scan.nextInt();
@@ -366,7 +368,7 @@ public class Runner {
                                 default:
                                     System.out.println("Incorrect input");
                                     System.out.println("What's the status of the album to update?" + "\n"
-                                            + "Please enter 6 for not completed " + " 7 for in-progress or 8 for completed");
+                                            + "Please enter 6 for not started " + " 7 for in-progress or 8 for completed");
                                     stillChoosing2 = false;
                                     break;
                             }
@@ -395,7 +397,8 @@ public class Runner {
 
 
 
-                            System.out.println(albumName + " | " + p.getProgress() + " | " + p.getRating() + " | " +  prog);
+                            System.out.println(String.format("%-38s", albumName) + " | " 
+                            + String.format("%-12s", p.getProgress()) + " | " + p.getRating() + " | " +  prog);
 
                         }
                         //RunnerController.viewAlbums(progList);
@@ -407,12 +410,14 @@ public class Runner {
 
                         List<Album> albAve = adao.getAllAlbums();
 
-                        System.out.println("\nID  -  Artist, 'Album'");
+                        System.out.println("\n" + String.format("%-2s - %-38s   %-25s   Rating", "ID", "Album", "Artist"));
 
 
                         for (Album a : albAve){
                             Double ave = pdao.getAveRating(a.getAlbum_id());
-                            System.out.println(a.getAlbum_id() + " | " + a.getAlbumName() + " | " + a.getArtist() + " | " + ave);
+                            System.out.println(String.format("%-2s", a.getAlbum_id()) + 
+                            		" | " + String.format("%-38s", a.getAlbumName()) + " | " 
+                            		+ String.format("%-25s", a.getArtist()) + " | " + ave);
 
                         }
                         break;

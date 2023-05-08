@@ -76,16 +76,12 @@ public class Album {
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
     }
+	@Override
+	public String toString() {
+		return "Album [album_id=" + album_id + ", albumName=" + albumName + ", artist=" + artist + ", genre=" + genre
+				+ ", songCount=" + songCount + ", releaseYear=" + releaseYear + "]";
+	}
 
 
-    @Override
-    public String toString() {
-        return "Album{" +
-                "album_id=" + album_id +
-                ", albumName='" + albumName + '\'' +
-                ", artist='" + artist + '\'' +
-                ", genre='" + genre + '\'' +
-                ", releaseYear=" + releaseYear +
-                '}';
-    }
+   
 }
