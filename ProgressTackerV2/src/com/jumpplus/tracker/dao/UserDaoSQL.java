@@ -25,8 +25,9 @@ public class UserDaoSQL implements UserDao{
                 int user_id = rs.getInt("user_id");
                 String usname = rs.getString("username");
                 String password = rs.getString("password");
+                boolean admin = rs.getBoolean("admin");
 
-                user = new User(user_id, usname, password);
+                user = new User(user_id, usname, password, admin);
 
             }
 
@@ -55,8 +56,9 @@ public class UserDaoSQL implements UserDao{
                 int user_id = rs.getInt("user_id");
                 String usname = rs.getString("username");
                 String password = rs.getString("password");
+                boolean admin = rs.getBoolean("admin");
 
-                user = new User(user_id, usname, password);
+                user = new User(user_id, usname, password, admin);
 
             }
 
@@ -76,7 +78,7 @@ public class UserDaoSQL implements UserDao{
 
         try {
 
-            conn.createStatement().execute("INSERT into users(username, password, admin) values ('" + username + "', md5('" + password +  "'), + admin)");
+            conn.createStatement().execute("INSERT into users(username, password, admin) values ('" + username + "', md5('" + password +  "'), " + admin + ")");
         } catch (SQLException e) {
             return false;
         }
@@ -101,8 +103,9 @@ public class UserDaoSQL implements UserDao{
                 int usId = rs.getInt("user_id");
                 String usname = rs.getString("username");
                 String password = rs.getString("password");
+                boolean admin = rs.getBoolean("admin");
 
-                user1 = new User(usId, usname, password);
+                user1 = new User(usId, usname, password, admin);
 
             }
 

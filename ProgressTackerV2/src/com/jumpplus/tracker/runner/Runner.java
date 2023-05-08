@@ -145,7 +145,13 @@ public class Runner {
         int ans;
         try {
             do {
-                RunnerController.menu(user);
+            	if (user.isAdmin()) {
+            		RunnerController.adminMenu(user);
+            	}
+            	else {
+            		RunnerController.menu(user);
+            	}
+               
 
                 ans = scan.nextInt();
                 scan.nextLine();

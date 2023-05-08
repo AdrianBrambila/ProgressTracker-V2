@@ -5,16 +5,24 @@ public class User {
     private int user_id;
     private String username;
     private String password;
+    private boolean admin;
 
-    public User(int user_id, String username, String password) {
+    public User(int user_id, String username, String password, boolean admin) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
+        this.admin = admin;
     }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+    
+    public User(String username, String password, boolean admin) {
+        this.username = username;
+        this.password = password;
+        this.admin = admin;
     }
 
     public User() {
@@ -62,8 +70,24 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    
 
-    @Override
+    /**
+	 * @return the admin
+	 */
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	/**
+	 * @param admin the admin to set
+	 */
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	@Override
     public String toString() {
         return "User [user_id=" + user_id + ", username=" + username + ", password=" + password + "]";
     }
