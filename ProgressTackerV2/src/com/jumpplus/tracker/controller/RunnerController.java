@@ -29,12 +29,11 @@ public class RunnerController {
         System.out.println("|                                            |");
         System.out.println("| Please choose from the following options:  |");
         System.out.println("|                                            |");
-        System.out.println("| 1: Add Album                               |");
-        System.out.println("| 2: Add Progress                            |");
-        System.out.println("| 3: Update Progress                         |");
-        System.out.println("| 4: List Albums                             |");
-        System.out.println("| 5: List Averages                           |");
-        System.out.println("| 6: LOGOUT                                  |");
+        System.out.println("| 1: Add Progress                            |");
+        System.out.println("| 2: Update Progress                         |");
+        System.out.println("| 3: List Albums                             |");
+        System.out.println("| 4: List Averages                           |");
+        System.out.println("| 5: LOGOUT                                  |");
         System.out.println("|                                            |");
         System.out.println("+============================================+");
     }
@@ -47,12 +46,13 @@ public class RunnerController {
         System.out.println("|                                            |");
         System.out.println("| Please choose from the following options:  |");
         System.out.println("|                                            |");
-        System.out.println("| 1: Add Album                               |");
-        System.out.println("| 2: Add Progress                            |");
-        System.out.println("| 3: Update Progress                         |");
-        System.out.println("| 4: List Albums                             |");
-        System.out.println("| 5: EDIT ALBUMS                             |");
-        System.out.println("| 6: LOGOUT                                  |");
+        System.out.println("| 1: Add Progress                            |");
+        System.out.println("| 2: Update Progress                         |");
+        System.out.println("| 3: List Albums                             |");
+        System.out.println("| 4: List Averages                           |");
+        System.out.println("| 5: LOGOUT                                  |");
+        System.out.println("| 6: Add Album                               |");
+        System.out.println("| 7: EDIT ALBUMS                             |");
         System.out.println("|                                            |");
         System.out.println("+============================================+");
     }
