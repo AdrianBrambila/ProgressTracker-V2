@@ -28,6 +28,7 @@ public class Runner {
 
         Scanner scan = new Scanner(System.in);
 
+
         UserDaoSQL userCaller = new UserDaoSQL();
         String welcome = "\nWelcome to our tracking app.\n";
 
@@ -376,12 +377,22 @@ public class Runner {
 
                         List<Progress> proggList = pdao.getAllUserTrackers(user.getUser_id());
 
-                        System.out.println("\nID  -  Artist, 'Album'");
+                        System.out.println("\nALBUM NAME | PROGRESS  | RATING");
 
-
+                        Album alb = new Album();
+                        int songsListened = 0;
+                        int songsTotal = 0;
                         for (Progress p : proggList){
+                            String albumName = adao.getAlbumNameById(p.getAlbum_id());
+                            songsListened = p.getSong_count();
+                            alb = adao.getAlbumId(p.getAlbum_id());
+                            songsTotal = alb.getSongCount();
+                            RunnerController.displayProgressBar(songsListened, songsTotal);
 
-                            System.out.println(adao.getAlbumNameById(p.getAlbum_id()) + " | " + p.getProgress() + " | " + p.getRating() + " | " );
+
+
+
+                            System.out.println(albumName + " | " + p.getProgress() + " | " + p.getRating() + " | " );
 
                         }
                         //RunnerController.viewAlbums(progList);
