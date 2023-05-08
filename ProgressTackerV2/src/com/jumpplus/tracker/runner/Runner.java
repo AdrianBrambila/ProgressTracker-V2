@@ -9,7 +9,7 @@ import com.jumpplus.tracker.exceptions.TrackingException;
 import com.jumpplus.tracker.model.Album;
 import com.jumpplus.tracker.model.Progress;
 import com.jumpplus.tracker.model.User;
-import com.jumpplus.tracker.populator.Populator;
+//import com.jumpplus.tracker.populator.Populator;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Runner {
 
     public static void main(String[] args) {
 
-        Populator.reset();
+        //Populator.reset();
 
         Scanner scan = new Scanner(System.in);
 
@@ -147,6 +147,7 @@ public class Runner {
                 RunnerController.menu(user);
 
                 ans = scan.nextInt();
+                scan.nextLine();
 
                 List<Progress> progList = pdao.getAllUserTrackers(user.getUser_id());
 
@@ -165,16 +166,10 @@ public class Runner {
                         List<Album> albList = adao.getAllAlbums();
 
                         System.out.println("\nID  -  Artist, 'Album'");
-//                        albList.forEach(album -> {
-//                            if (album.getAlbum_id() < 10)
-//                                System.out.printf(" %s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
-//                            else
-//                                System.out.printf("%s  -  %s\n", album.getAlbum_id(), album.getAlbumName());
-//                        });
+
 
                         for (Album a : albList){
                             System.out.println(a.getAlbum_id() + " | " + a.getAlbumName() + " | " + a.getArtist() + " | " + a.getGenre());
-
 
                         }
 
@@ -192,18 +187,34 @@ public class Runner {
                         choice = scan.nextInt();
                         scan.nextLine();
 
-                        if(choice == 8){
-                            System.out.println("What would you rate the album out of 5?");
-                            rating = scan.nextInt();
-                            scan.nextLine();
+//                        if(choice == 8){
+//                            System.out.println("What would you rate the album out of 5?");
+//                            rating = scan.nextInt();
+//                            scan.nextLine();
+//
+//                            System.out.println("How many songs have you listened to?");
+//                            songCount = scan.nextInt();
+//                            scan.nextLine();
+//
+//                        }
+
+                        if(choice == 7){
 
                             System.out.println("How many songs have you listened to?");
                             songCount = scan.nextInt();
                             scan.nextLine();
 
                         }
+                        if(choice == 8){
+                            System.out.println("What would you rate the album out of 5?");
+                            rating = scan.nextInt();
+                            scan.nextLine();
+
+                            Album a = adao.getAlbumId(albumId);
+                            songCount = a.getSongCount();
 
 
+                        }
 
 
 
@@ -363,7 +374,17 @@ public class Runner {
                         System.out.println("Your progress trackers and albums");
                         System.out.println("----------------------------------------------------------------------------");
 
-                        RunnerController.viewAlbums(progList);
+                        List<Progress> proggList = pdao.getAllUserTrackers(user.getUser_id());
+
+                        System.out.println("\nID  -  Artist, 'Album'");
+
+
+                        for (Progress p : proggList){
+
+                            System.out.println(adao.getAlbumNameById(p.getAlbum_id()) + " | " + p.getProgress() + " | " + p.getRating() + " | " );
+
+                        }
+                        //RunnerController.viewAlbums(progList);
 
                         System.out.println("\n");
 

@@ -1,5 +1,6 @@
 package com.jumpplus.tracker.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,6 +10,8 @@ import com.jumpplus.tracker.model.Progress;
 import com.jumpplus.tracker.model.User;
 
 public class RunnerController {
+
+    static AlbumDaoSQL adao = new AlbumDaoSQL();
 
     public static void menuDisplay() {
         System.out.println("+====================================+");
@@ -73,14 +76,37 @@ public class RunnerController {
 
     // public Album(int album_id, String albumName, String artist, String genre, int releaseYear)
     public static void addAlbum(Scanner scan, AlbumDaoSQL albumCaller) {
+
+        List<String> artList = adao.getAllArtists();
+        List<String> genList = adao.getAllGenres();
+        int artist_id = 0;
+        int genre_id = 0;
         System.out.println("What's the name of the new album?");
         String albumName = scan.nextLine();
-        //String albumName = testVar + scan.nextLine();
+
         System.out.println("Who is the Artist? ");
         String artist = scan.nextLine();
 
+        if(artList.contains(artist)){
+            artist_id = adao.getArtistId(artist);
+        }
+        else{
+            adao.addArtist(artist);
+            artist_id = adao.getArtistId(artist);
+        }
+
+
+
         System.out.println("What is the Genre? ");
         String genre = scan.nextLine();
+        if(genList.contains(genre)){
+            genre_id = adao.getGenreId(genre);
+        }
+        else{
+            adao.addGenre(genre);
+            genre_id = adao.getGenreId(genre);
+
+        }
 
         System.out.println("When was the album released? ");
         int releseYear = scan.nextInt();
@@ -92,7 +118,7 @@ public class RunnerController {
 
 
         Album albumAdded = new Album(1, albumName, artist, genre, songCount, releseYear);
-        boolean addResult = albumCaller.addAlbum(albumAdded);
+        boolean addResult = albumCaller.addAlbum(albumAdded, artist_id, genre_id);
         if (addResult) {
             System.out.println(albumAdded);
             System.out.println("Album successfully added");
@@ -109,17 +135,17 @@ public class RunnerController {
             System.out.println("\nYou aren't tracking any albums.\n");
         }
         List<Album> albums = albumCaller.getAllAlbums();
-        progList.forEach(progress -> {
-
-
-            Album progressAlbum =
-                    albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
-                            .findFirst().get();
-            if (progressAlbum.getAlbum_id() < 10) System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
-                    progressAlbum.getAlbumName(), progress.getProgress());
-            else System.out.printf("\n%s - %s -> %s", progressAlbum.getAlbum_id(),
-                    progressAlbum.getAlbumName(), progress.getProgress());
-        });
+//        progList.forEach(progress -> {
+//
+//
+//            Album progressAlbum =
+//                    albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
+//                            .findFirst().get();
+//            if (progressAlbum.getAlbum_id() < 10) System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
+//                    progressAlbum.getAlbumName(), progress.getProgress());
+//            else System.out.printf("\n%s - %s -> %s", progressAlbum.getAlbum_id(),
+//                    progressAlbum.getAlbumName(), progress.getProgress());
+//        });
     }
 
 
