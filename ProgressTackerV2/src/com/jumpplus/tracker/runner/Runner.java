@@ -379,7 +379,7 @@ public class Runner {
                     case 3:
                         // View Albums and their trackers
                         System.out.println("Your progress trackers and albums");
-                        System.out.println("----------------------------------------------------------------------------");
+                        System.out.println("----------------------------------------------------------------------------------");
 
                         List<Progress> proggList = pdao.getAllUserTrackers(user.getUser_id());
 
