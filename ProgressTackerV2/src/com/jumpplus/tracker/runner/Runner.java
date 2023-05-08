@@ -153,11 +153,9 @@ public class Runner {
                 List<Progress> progList = pdao.getAllUserTrackers(user.getUser_id());
 
                 switch (ans) {
-                    case 1:
-                        RunnerController.addAlbum(scan, adao);
-                        break;
 
-                    case 2:
+
+                    case 1:
                         // Add Progress
                         // Assumed that user already has an id
                         int userId = user.getUser_id();
@@ -274,7 +272,7 @@ public class Runner {
 
                         break;
 
-                    case 3:
+                    case 2:
                         // Update Progress
                         int userId2 = user.getUser_id();
                         System.out.println("What's the album id to update?");
@@ -370,7 +368,7 @@ public class Runner {
 
                         break;
 
-                    case 4:
+                    case 3:
                         // View Albums and their trackers
                         System.out.println("Your progress trackers and albums");
                         System.out.println("----------------------------------------------------------------------------");
@@ -399,7 +397,7 @@ public class Runner {
                         System.out.println("\n");
 
                         break;
-                    case 5://get average ratings
+                    case 4://get average ratings
 
                         List<Album> albAve = adao.getAllAlbums();
 
@@ -413,8 +411,14 @@ public class Runner {
                         }
                         break;
 
-                    case 6:
+                    case 5:
                         System.out.println("You have logged out\n");
+                        break;
+                    case 6:
+                        RunnerController.addAlbum(scan, adao);
+                        break;
+                    case 7:
+                       // Update albums
                         break;
 
                     default:
