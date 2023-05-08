@@ -21,6 +21,7 @@ public class Album {
         this.artist = artist;
         this.genre = genre;
         this.releaseYear = releaseYear;
+        this.songCount = songCount;
     }
 
     /**
