@@ -15,6 +15,7 @@ public interface ProgressDao {
     public List<Progress> getAllProgress();
 
     public List<Progress> getAveRatings();
+    public Double getAveRating(int a_id);
 
 
 }

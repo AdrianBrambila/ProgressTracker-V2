@@ -33,7 +33,8 @@ public class RunnerController {
         System.out.println("| 2: Add Progress                            |");
         System.out.println("| 3: Update Progress                         |");
         System.out.println("| 4: List Albums                             |");
-        System.out.println("| 5: LOGOUT                                  |");
+        System.out.println("| 5: List Averages                           |");
+        System.out.println("| 6: LOGOUT                                  |");
         System.out.println("|                                            |");
         System.out.println("+============================================+");
     }
