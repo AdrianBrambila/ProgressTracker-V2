@@ -377,7 +377,6 @@ public class Runner {
 
                         List<Progress> proggList = pdao.getAllUserTrackers(user.getUser_id());
 
-                        System.out.println("\nALBUM NAME | PROGRESS  | RATING");
 
                         Album alb = new Album();
                         int songsListened = 0;
@@ -400,8 +399,21 @@ public class Runner {
                         System.out.println("\n");
 
                         break;
+                    case 5://get average ratings
 
-                    case 5:
+                        List<Album> albAve = adao.getAllAlbums();
+
+                        System.out.println("\nID  -  Artist, 'Album'");
+
+
+                        for (Album a : albAve){
+                            Double ave = pdao.getAveRating(a.getAlbum_id());
+                            System.out.println(a.getAlbum_id() + " | " + a.getAlbumName() + " | " + a.getArtist() + " | " + ave);
+
+                        }
+                        break;
+
+                    case 6:
                         System.out.println("You have logged out\n");
                         break;
 

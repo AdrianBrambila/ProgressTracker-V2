@@ -147,35 +147,60 @@ public class ProgressDaoSQL implements ProgressDao {
 
     @Override
     public List<Progress> getAveRatings() {
-        List<Progress> progList = new ArrayList<Progress>();
+//        List<Progress> progList = new ArrayList<Progress>();
+//
+//        try( Statement stmt = conn.createStatement();
+//             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, avg(p.rating) from albums al left join  progress p on al.album_id = p.album_id group by al.album_id");){
+//
+//
+//            while(rs.next()) {
+//                //int uid = rs.getInt("user_id");
+//                int aid = rs.getInt("album_id");
+//                //String prog = rs.getString("progress");
+//                //int songs = rs.getInt("song_count");
+//                int rating = rs.getInt("rating");
+//
+//
+//                Progress nProg = new Progress();
+//                //nProg.setUser_id(uid);
+//                nProg.setAlbum_id(aid);
+//                nProg.setSong_count(songs);
+//                nProg.setProgress(prog);
+//                nProg.setRating(rating);
+//
+//                progList.add(nProg);
+//
+//            }
+//
+//            return progList;
+//
+//        } catch (SQLException e) {
+//            System.out.println("Could not retrieve list of trackers for user");
+//        }
+        return null;
+    }
 
+    @Override
+    public Double getAveRating(int a_id) {
         try( Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, avg(p.rating) from albums al left join  progress p on al.album_id = p.album_id group by al.album_id");){
+             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, avg(p.rating) average from albums al left join  progress p on al.album_id = p.album_id where al.album_id = " + a_id + " group by al.album_id");){
 
+            double rating = 0;
 
             while(rs.next()) {
-                int uid = rs.getInt("user_id");
-                int aid = rs.getInt("album_id");
-                String prog = rs.getString("progress");
-                int songs = rs.getInt("song_count");
-                int rating = rs.getInt("rating");
+                //int uid = rs.getInt("user_id");
+                //int aid = rs.getInt("album_id");
+                //String prog = rs.getString("progress");
+                //int songs = rs.getInt("song_count");
+                 rating = rs.getInt("average");
 
-
-                Progress nProg = new Progress();
-                nProg.setUser_id(uid);
-                nProg.setAlbum_id(aid);
-                nProg.setSong_count(songs);
-                nProg.setProgress(prog);
-                nProg.setRating(rating);
-
-                progList.add(nProg);
 
             }
 
-            return progList;
+            return rating;
 
         } catch (SQLException e) {
-            System.out.println("Could not retrieve list of trackers for user");
+            System.out.println("Could not retrieve average");
         }
         return null;
     }
