@@ -76,7 +76,7 @@ public class UserDaoSQL implements UserDao{
 
         try {
 
-            conn.createStatement().execute("INSERT into users(username, password, admin) values ('" + username + "', md5('" + password +  "') + admin)");
+            conn.createStatement().execute("INSERT into users(username, password, admin) values ('" + username + "', md5('" + password +  "'), + admin)");
         } catch (SQLException e) {
             return false;
         }
