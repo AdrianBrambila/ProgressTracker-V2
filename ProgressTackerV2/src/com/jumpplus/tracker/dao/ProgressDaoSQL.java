@@ -118,6 +118,40 @@ public class ProgressDaoSQL implements ProgressDao {
         try( Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM progress ");){
 
+            while(rs.next()) {
+                int uid = rs.getInt("user_id");
+                int aid = rs.getInt("album_id");
+                String progress = rs.getString("progress");
+                int songs = rs.getInt("song_count");
+                int rating = rs.getInt("rating");
+
+
+                Progress nProg = new Progress();
+                nProg.setUser_id(uid);
+                nProg.setAlbum_id(aid);
+                nProg.setSong_count(songs);
+                nProg.setProgress(progress);
+                nProg.setRating(rating);
+
+                progList.add(nProg);
+
+            }
+
+            return progList;
+
+        } catch (SQLException e) {
+            System.out.println("Could not retrieve list of trackers for user");
+        }
+        return null;
+    }
+
+    @Override
+    public List<Progress> getAveRatings() {
+        List<Progress> progList = new ArrayList<Progress>();
+
+        try( Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, avg(p.rating) from albums al left join  progress p on al.album_id = p.album_id group by al.album_id");){
+
 
             while(rs.next()) {
                 int uid = rs.getInt("user_id");

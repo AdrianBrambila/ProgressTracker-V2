@@ -387,12 +387,12 @@ public class Runner {
                             songsListened = p.getSong_count();
                             alb = adao.getAlbumId(p.getAlbum_id());
                             songsTotal = alb.getSongCount();
-                            RunnerController.displayProgressBar(songsListened, songsTotal);
+                            String prog = RunnerController.displayProgressBar(songsListened, songsTotal);
 
 
 
 
-                            System.out.println(albumName + " | " + p.getProgress() + " | " + p.getRating() + " | " );
+                            System.out.println(albumName + " | " + p.getProgress() + " | " + p.getRating() + " | " +  prog);
 
                         }
                         //RunnerController.viewAlbums(progList);
