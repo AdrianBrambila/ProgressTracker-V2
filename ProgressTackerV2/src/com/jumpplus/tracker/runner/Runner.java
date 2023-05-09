@@ -142,6 +142,7 @@ public class Runner {
         AlbumDaoSQL adao = new AlbumDaoSQL();
         ProgressDaoSQL pdao = new ProgressDaoSQL();
 
+
         int ans;
         try {
             do {
@@ -163,20 +164,22 @@ public class Runner {
 
                     case 1:
                         // Add Progress
-                        // Assumed that user already has an id
+
                         int userId = user.getUser_id();
                         System.out.println("What's the album id?");
                         System.out.println("---------------------------------------------------------------------------------");
 
                         List<Album> albList = adao.getAllAlbums();
 
-                        System.out.println("\n" + String.format("%-2s - %-38s   %-25s   Genre", "ID", "Album", "Artist"));
+                        System.out.println("\n" + String.format("%-2s - %-38s   %-25s   %-15s Songs", "ID", "Album", "Artist", "Genre"));
 
 
                         for (Album a : albList){
                             System.out.println(String.format("%-2s", a.getAlbum_id())
                             		+ " | " + String.format("%-38s", a.getAlbumName())
-                            		+ " | " + String.format("%-25s", a.getArtist()) + " | " + a.getGenre());
+                            		+ " | " + String.format("%-25s", a.getArtist())
+                                    + " | " + String.format("%-15s", a.getGenre())
+                                    + "|" + " Songs: " + a.getSongCount());
 
                         }
 
@@ -194,16 +197,7 @@ public class Runner {
                         choice = scan.nextInt();
                         scan.nextLine();
 
-//                        if(choice == 8){
-//                            System.out.println("What would you rate the album out of 5?");
-//                            rating = scan.nextInt();
-//                            scan.nextLine();
-//
-//                            System.out.println("How many songs have you listened to?");
-//                            songCount = scan.nextInt();
-//                            scan.nextLine();
-//
-//                        }
+
 
                         if(choice == 7){
 
@@ -286,7 +280,24 @@ public class Runner {
                         System.out.println("What's the album id to update?");
                         System.out.println("----------------------------------------------------------------------------");
 
-                        RunnerController.viewAlbums(progList);
+                        //RunnerController.viewAlbums(progList);
+                        List<Progress> proggList = pdao.getAllUserTrackers(user.getUser_id());
+                        Album alb = new Album();
+                        int songsListened = 0;
+                        int songsTotal = 0;
+                        for (Progress p : proggList){
+                            String albumName = adao.getAlbumNameById(p.getAlbum_id());
+                            songsListened = p.getSong_count();
+                            alb = adao.getAlbumId(p.getAlbum_id());
+                            songsTotal = alb.getSongCount();
+                            String prog = RunnerController.displayProgressBar(songsListened, songsTotal);
+
+
+                            System.out.println(p.getAlbum_id() + " | " + String.format("%-38s", albumName) + " | "
+                                    + String.format("%-12s", p.getProgress()) + " | " + p.getRating() + " | " +  prog);
+
+                        }
+
 
                         System.out.println("\n");
 
@@ -381,12 +392,12 @@ public class Runner {
                         System.out.println("Your progress trackers and albums");
                         System.out.println("----------------------------------------------------------------------------------");
 
-                        List<Progress> proggList = pdao.getAllUserTrackers(user.getUser_id());
+                        proggList = pdao.getAllUserTrackers(user.getUser_id());
 
 
-                        Album alb = new Album();
-                        int songsListened = 0;
-                        int songsTotal = 0;
+                        alb = new Album();
+                        songsListened = 0;
+                        songsTotal = 0;
                         for (Progress p : proggList){
                             String albumName = adao.getAlbumNameById(p.getAlbum_id());
                             songsListened = p.getSong_count();
@@ -429,7 +440,7 @@ public class Runner {
                         RunnerController.addAlbum(scan, adao);
                         break;
                     case 7:
-                       // Update albums
+                       RunnerController.updateAlbum(scan);
                         break;
 
                     default:

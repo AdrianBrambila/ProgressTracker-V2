@@ -84,7 +84,7 @@ public class AlbumDaoSQL implements AlbumDao{
         List<Album> albList = new ArrayList<Album>();
 
         try( Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id order by al.album_id");){
+             ResultSet rs = stmt.executeQuery("select al.album_id, al.album, ar.artist_name, g.genre_name, al.release_year, al.song_number from artist ar join albums al on al.artist_id = ar.artist_id join genre g on al.genre_id = g.genre_id order by al.album_id");){
 
             while(rs.next()) {
                 int album_id = rs.getInt("album_id");
@@ -92,6 +92,7 @@ public class AlbumDaoSQL implements AlbumDao{
                 String artist = rs.getString("artist_name");
                 String genre = rs.getString("genre_name");
                 int release = rs.getInt("release_year");
+                int songs = rs.getInt("song_number");
 
 
                 Album album = new Album();
@@ -100,6 +101,7 @@ public class AlbumDaoSQL implements AlbumDao{
                 album.setArtist(artist);
                 album.setGenre(genre);
                 album.setReleaseYear(release);
+                album.setSongCount(songs);
 
                 albList.add(album);
 
@@ -224,6 +226,30 @@ public class AlbumDaoSQL implements AlbumDao{
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("album add failed");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateAlbum(Album album, int artist_id, int genre_id) {
+        try ( PreparedStatement pstmt = conn.prepareStatement("update albums set album_id = ?, artist_id = ?, genre_id = ? , album = ?, song_number = ?, release_year = ? where album_id = ?")) {
+
+            pstmt.setInt(1, album.getAlbum_id());
+            pstmt.setInt(2, artist_id);
+            pstmt.setInt(3, genre_id);
+            pstmt.setString(4, album.getAlbumName());
+            pstmt.setInt(5, album.getSongCount());
+            pstmt.setInt(6, album.getReleaseYear());
+            pstmt.setInt(7, album.getAlbum_id());
+
+            int i = pstmt.executeUpdate();
+
+            if(i > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Failed to update Album");
         }
         return false;
     }

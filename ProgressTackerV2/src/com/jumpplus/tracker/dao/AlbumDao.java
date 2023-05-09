@@ -17,6 +17,8 @@ public interface AlbumDao {
 
     public boolean addAlbum(Album album, int artist_id, int genre_id);
 
+    public boolean updateAlbum(Album album, int artist_id, int genre_id);
+
     public int getArtistId(String artist);
     public int getGenreId(String genre);
 

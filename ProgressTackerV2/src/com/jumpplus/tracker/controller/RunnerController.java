@@ -75,6 +75,16 @@ public class RunnerController {
         System.out.println("8 - Completed                            \n");
     }
 
+    public static void updateAlbumMenu(){
+        System.out.println("What would you like to update?            ");
+        System.out.println("                                          ");
+        System.out.println("1 - Artist                                ");
+        System.out.println("2 - Genre                                 ");
+        System.out.println("3 - Album Name                            ");
+        System.out.println("4 - Number of Songs                       ");
+        System.out.println("5 - Release Year \n                       ");
+    }
+
     // public Album(int album_id, String albumName, String artist, String genre, int releaseYear)
     public static void addAlbum(Scanner scan, AlbumDaoSQL albumCaller) {
 
@@ -127,6 +137,101 @@ public class RunnerController {
             System.out.println("Could not add album");
         }
     }
+    public static void updateAlbum(Scanner scan){
+        System.out.println("What album would you like to update?");
+
+        List<Album> albList = adao.getAllAlbums();
+
+        System.out.println("\n" + String.format("%-2s - %-38s   %-25s   %-15s Songs", "ID", "Album", "Artist", "Genre"));
+
+
+        for (Album a : albList){
+            System.out.println(String.format("%-2s", a.getAlbum_id())
+                    + " | " + String.format("%-38s", a.getAlbumName())
+                    + " | " + String.format("%-25s", a.getArtist())
+                    + " | " + String.format("%-15s", a.getGenre())
+                    + "|" + " Songs: " + a.getSongCount());
+
+        }
+        int choice = scan.nextInt();
+        scan.nextLine();
+        Album a = adao.getAlbumId(choice);
+        List<String> artList = adao.getAllArtists();
+        List<String> genList = adao.getAllGenres();
+        int artist_id = adao.getArtistId(a.getArtist());
+        int genre_id = adao.getGenreId(a.getGenre());
+
+        updateAlbumMenu();
+        choice = scan.nextInt();
+        scan.nextLine();
+        boolean b = true;
+        while(b) {
+            switch (choice) {
+                case 1: //artist
+                    System.out.println("What is the name of the new artist?");
+
+                    String artist = scan.nextLine();
+
+                    if (artList.contains(artist)) {
+                        artist_id = adao.getArtistId(artist);
+                    } else {
+                        adao.addArtist(artist);
+                        artist_id = adao.getArtistId(artist);
+                    }
+                    b=false;
+
+                    break;
+                case 2: //genre
+                    System.out.println("What is the name of the new genre?");
+                    String genre = scan.nextLine();
+                    if (genList.contains(genre)) {
+                        genre_id = adao.getGenreId(genre);
+                    } else {
+                        adao.addGenre(genre);
+                        genre_id = adao.getGenreId(genre);
+
+                    }
+                    b=false;
+
+                    break;
+                case 3: //name
+                    System.out.println("What is the new album name?");
+                    String album = scan.nextLine();
+                    a.setAlbumName(album);
+                    b=false;
+
+                    break;
+                case 4: //song count
+                    System.out.println("What is the new song count?");
+                    int songs = scan.nextInt();
+                    scan.nextLine();
+                    a.setSongCount(songs);
+                    b=false;
+
+                    break;
+                case 5: //release year
+                    System.out.println("What is the new release year?");
+                    int year = scan.nextInt();
+                    scan.nextLine();
+                    a.setReleaseYear(year);
+                    b=false;
+                    break;
+
+
+            }
+        }
+        if(adao.updateAlbum(a, artist_id, genre_id)){
+            System.out.println("Album updated!");
+
+        }
+        else{
+            System.out.println("Album not updated successfully");
+        }
+
+
+
+
+    }
 
 
     public static void viewAlbums(List<Progress> progList) {
@@ -136,17 +241,7 @@ public class RunnerController {
             System.out.println("\nYou aren't tracking any albums.\n");
         }
         List<Album> albums = albumCaller.getAllAlbums();
-//        progList.forEach(progress -> {
-//
-//
-//            Album progressAlbum =
-//                    albums.stream().filter(album -> album.getAlbum_id() == progress.getAlbum_id())
-//                            .findFirst().get();
-//            if (progressAlbum.getAlbum_id() < 10) System.out.printf("\n %s - %s -> %s", progressAlbum.getAlbum_id(),
-//                    progressAlbum.getAlbumName(), progress.getProgress());
-//            else System.out.printf("\n%s - %s -> %s", progressAlbum.getAlbum_id(),
-//                    progressAlbum.getAlbumName(), progress.getProgress());
-//        });
+
     }
 
 
